@@ -27,7 +27,6 @@ const App = () => {
   //set Random img to the background and random background size
   const addMoveable = async () => {
     const randomBg = await getRandomImage();
-    console.log(`url(${randomBg})`);
     const backgroundSize = Math.random() < 0.5 ? 'cover' : 'contain';
     setMoveableComponents([
       ...moveableComponents,
@@ -73,6 +72,14 @@ const App = () => {
       const initialWidth = e.width;
 
       // Set up the onResize event handler to update the left value based on the change in width
+      e.setOrigin(["%", "%"]);
+      e.on("resize", ({target, width}) => {
+        const newLeft = initialLeft - (width - initialWidth) / 2;
+        updateMoveable(target.id, {
+          width,
+          left: newLeft,
+        })
+      })
     }
   };
 
@@ -121,8 +128,6 @@ const Component = ({
   setSelected,
   isSelected = false,
   onDelete,
-  handleDelete,
-  updateEnd,
 }) => {
   const ref = useRef();
 
