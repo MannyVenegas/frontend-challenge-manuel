@@ -18,7 +18,7 @@ const App = () => {
       console.log(error);
     }
   };
-  
+
   //handle delete component
   const handleDelete = (id) => {
     setMoveableComponents(moveableComponents.filter((component) => component.id !== id));
@@ -27,7 +27,7 @@ const App = () => {
   //set Random img to the background and random background size
   const addMoveable = async () => {
     const randomBg = await getRandomImage();
-    console.log(randomBg);
+    console.log(`url(${randomBg})`);
     const backgroundSize = Math.random() < 0.5 ? 'cover' : 'contain';
     setMoveableComponents([
       ...moveableComponents,
@@ -116,6 +116,7 @@ const Component = ({
   color,
   backgroundImage,
   backgroundSize,
+  backgroundPosition= "0 0",
   id,
   setSelected,
   isSelected = false,
@@ -134,7 +135,8 @@ const Component = ({
     color,
     id,
     backgroundImage,
-    backgroundSize
+    backgroundSize,
+    backgroundPosition
   });
 
   let parent = document.getElementById("parent");
@@ -144,7 +146,11 @@ const Component = ({
     top,
     left,
     width,
-    height
+    height,
+    backgroundImage,
+    backgroundSize,
+    backgroundPosition
+
   })
 
   const onResize = async (e) => {
@@ -166,7 +172,8 @@ const Component = ({
       width: newWidth,
       height: newHeight,
       backgroundImage,
-      backgroundSize
+      backgroundSize,
+      backgroundPosition
     });
 
     // ACTUALIZAR NODO REFERENCIA
@@ -177,6 +184,11 @@ const Component = ({
 
     let translateX = beforeTranslate[0];
     let translateY = beforeTranslate[1];
+
+    //Update background position
+    const bgLeft = -translateX;
+    const bgTop = -translateY;
+    const bgPosition = `${bgLeft}px ${bgTop}px`
 
     // Check if component exceeds the boundaries after resizing
     if (left + translateX < 0){
@@ -199,6 +211,7 @@ const Component = ({
       translateY,
       top: top + translateY < 0 ? 0 : top + translateY,
       left: left + translateX < 0 ? 0 : left + translateX,
+      backgroundPosition: bgPosition,
     });
   };
 
@@ -247,7 +260,7 @@ const Component = ({
           left: left,
           width: width,
           height: height,
-          background: color,
+          backgroundImage
         }}
         onClick={() => setSelected(id)}
       />
@@ -267,7 +280,8 @@ const Component = ({
             left: e.left,
             width,
             height,
-            color,
+            backgroundImage,
+            backgroundSize
           });
         }}
         onResize={onResize}
