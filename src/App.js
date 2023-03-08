@@ -18,7 +18,7 @@ const App = () => {
       console.log(error);
     }
   };
-
+  
   //handle delete component
   const handleDelete = (id) => {
     setMoveableComponents(moveableComponents.filter((component) => component.id !== id));
