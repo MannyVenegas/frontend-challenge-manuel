@@ -242,7 +242,8 @@ const Component = ({
         width: newWidth,
         height: newHeight,
         backgroundImage,
-        backgroundSize
+        backgroundSize,
+        backgroundPosition
       },
       true
     );
@@ -260,7 +261,8 @@ const Component = ({
           left: left,
           width: width,
           height: height,
-          backgroundImage
+          backgroundImage,
+          backgroundSize,
         }}
         onClick={() => setSelected(id)}
       />
